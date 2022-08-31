@@ -50,7 +50,7 @@ jobs:
     - name: Build and push Docker Image
       # we could use the run: option and run commands to login to dockerhub and do the whole process
       # or we could look for existing github action templates because this is a very repititve and common step (dockerizig apps)
-      uses: mr-smithers-excellent/docker-build-push@v4
+      uses: mr-smithers-excellent/docker-build-push@v5
       with:
         image: mhmdahmed167/techworld
         registry: docker.io
