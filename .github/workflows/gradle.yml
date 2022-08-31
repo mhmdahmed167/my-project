@@ -47,8 +47,7 @@ jobs:
     ##--- up until the previous step we have build and tested the project.
     ##-- next steps are to containerize the application and publish the image to a dockerhub repo
     - name: Checking list of files after build
-      run: |
-        ls
+      run: ls -a
       
     - name: Build and push Docker Image
       # we could use the run: option and run commands to login to dockerhub and do the whole process
