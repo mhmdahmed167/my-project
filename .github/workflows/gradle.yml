@@ -20,7 +20,12 @@ on:
 jobs:
   build: #this could be any name of the job
 
-    runs-on: ubuntu-latest
+    runs-on: ${{matrix.os}} #initially only this line was present which is okay for testing on 1 OS
+    #In above line if we have just one OS, we can simply write the name of the OS without any brackets etc for e.g ubuntu-latest
+    #lines below are written if we want to test on multiple OS (github actions provides options for 3 OS, Ubuntu, Mac and windows)
+    strategy:
+      matrix:
+        os: [ubuntu-latest, windows-latest, macOS-latest]
 
     steps:
     - uses: actions/checkout@v2
