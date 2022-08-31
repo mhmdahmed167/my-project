@@ -20,13 +20,13 @@ on:
 jobs:
   build: #this could be any name of the job
 
-    runs-on: ${{matrix.os}} #initially only this line was present which is okay for testing on 1 OS
+    #runs-on: ${{matrix.os}} #initially only this line was present which is okay for testing on 1 OS
     #In above line if we have just one OS, we can simply write the name of the OS without any brackets etc for e.g ubuntu-latest
     #lines below are written if we want to test on multiple OS (github actions provides options for 3 OS, Ubuntu, Mac and windows)
-    strategy:
-      matrix:
-        os: [ubuntu-latest, windows-latest, macOS-latest]
-
+    #strategy:
+    #  matrix:
+    #    os: [ubuntu-latest, windows-latest, macOS-latest]
+    runs-on: ubuntu-latest #this was updated to single OS when docker repo was added for publishing image
     steps:
     - uses: actions/checkout@v2
 
@@ -43,3 +43,17 @@ jobs:
       #with:
        # arguments: build
       run: ./gradlew build
+    
+    ##--- up until the previous step we have build and tested the project.
+    ##-- next steps are to containerize the application and publish the image to a dockerhub repo
+
+    - name: Build and push Docker Image
+      # we could use the run: option and run commands to login to dockerhub and do the whole process
+      # or we could look for existing github action templates because this is a very repititve and common step (dockerizig apps)
+      uses: mr-smithers-excellent/docker-build-push@v4
+      with:
+        image: mhmdahmed167/techworld
+        registry: docker.io
+        username: ${{ secrets.DOCKER_USERNAME }} #Since this yml file is part of code, we cannot put credentials in it.
+        password: ${{ secrets.DOCKER_PASSWORD }} # thats why we use placeholders; secrets are configured in github API in settings
+        
